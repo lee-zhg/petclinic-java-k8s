@@ -56,6 +56,8 @@ pipeline {
                                           passwordVariable: 'PASSWORD')]) {
                  sh """
                  #!/bin/bash
+                 echo "docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}"
+                 echo "docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0"
                  docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
                  #####docker login -u "iamapikey" -p "PzzS3FSZGoEc7rC0bxZ9tR4Ku7QRDeUc5TBPDyxbnexc" ${env.REGISTRY_URL}
                  docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0
