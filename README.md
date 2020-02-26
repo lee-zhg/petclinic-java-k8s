@@ -111,7 +111,7 @@ Now you'll configure Github to trigger your pipeline whenever code is committed.
 
 1. In your Git repo, navigate to the `Code` tab on the top.
 
-   ![Code](images/ss6.png)
+   ![Code](images/ss10.png)
 
 1. In the Github file browser, drill down to `src/main/resources/templates/welcome.html`.
 
