@@ -62,7 +62,6 @@ pipeline {
                  echo "docker push us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0"
                  docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
                  docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0
-                 //#####docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${env.BUILD_NUMBER}
                  """
              }
            }
