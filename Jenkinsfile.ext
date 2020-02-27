@@ -76,7 +76,6 @@ pipeline {
                     sh """
                     #!/bin/bash
                     ibmcloud login --apikey ${PASSWORD} -r ${env.REGION} -g ${env.RESOURCE_GROUP}
-                    //#####ibmcloud login --apikey "PzzS3FSZGoEc7rC0bxZ9tR4Ku7QRDeUc5TBPDyxbnexclz" -r ${env.REGION} -g ${env.RESOURCE_GROUP}
                     eval \$(ibmcloud ks cluster-config --cluster ${env.CLUSTER_NAME} --export)
                     kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/deployment.yaml  --namespace=${env.DEPLOYMENT_NS}
                     kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/service.yaml  --namespace=${env.DEPLOYMENT_NS}
