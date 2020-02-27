@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: spring-petclicnic
-        image: us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0
+        image: us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0
         ports:
         - name: http-server
           containerPort: 9080
