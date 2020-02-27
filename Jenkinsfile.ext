@@ -59,10 +59,10 @@ pipeline {
                  sh """
                  #!/bin/bash
                  echo "docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}"
-                 echo "docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${env.BUILD_NUMBER}"
+                 echo "docker push us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0"
                  //###docker login -u "iamapikey" -p "PzzS3FSZGoEc7rC0bxZ9tR4Ku7QRDeUc5TBPDyxbnexclz" ${env.REGISTRY_URL}
                  docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
-                 docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0
+                 docker  push  us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0
                  //#####docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${env.BUILD_NUMBER}
                  """
              }
