@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclicnic
+  labels:
+    app: petclicnic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclicnic
+  template:
+    metadata:
+      labels:
+        app: petclicnic
+    spec:
+      containers:
+      - name: spring-petclicnic
+        image: us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0
+        ports:
+        - name: http-server
+          containerPort: 9080

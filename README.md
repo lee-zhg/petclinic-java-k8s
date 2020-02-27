@@ -58,7 +58,7 @@ More details of this pipeline can be found in the [Jenkinsfile](https://raw.gith
 
 1. In the `Repository URL` field, enter the url to the cloned repository that you forked earlier (i.e. `https://github.com/[your Git username]/petclinic-java-k8s`).
 
-1. Change the `Script Path` to `Jenkinsfile_2declarative.ext`
+1. Change the `Script Path` to `Jenkinsfile.ext`
 
    ![pipeline config](images/ss3.png)
 
