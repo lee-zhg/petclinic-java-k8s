@@ -30,3 +30,28 @@ Create chart name and version as used by the chart label.
 {{- define "spring-petclinic.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "spring-petclinic.labels" -}}
+app: {{ include "spring-petclinic.name" . }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "spring-petclinic.selectorLabels" -}}
+app: {{ include "spring-petclinic.name" . }}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "spring-petclinic.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "spring-petclinic.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}

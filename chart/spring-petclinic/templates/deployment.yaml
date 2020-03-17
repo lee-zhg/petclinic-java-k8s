@@ -1,60 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "spring-petclinic.fullname" . }}
+  name: {{ include "spring-petclinic.fullname" . }}
   labels:
-    app: {{ template "spring-petclinic.name" . }}
-    chart: {{ template "spring-petclinic.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "spring-petclinic.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "spring-petclinic.name" . }}
-      release: {{ .Release.Name }}
+      {{- include "spring-petclinic.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ template "spring-petclinic.name" . }}
-        release: {{ .Release.Name }}
+        {{- include "spring-petclinic.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: "{{ .Values.application.profile }}"
-          command:
-          - java
-          args:
-            - -Djava.security.egd=file:/dev/./urandom
-            - -jar
-            - /petclinic.jar
-            - --spring.config.location=file:/etc/custom_application.properties
+          image: "{{ .Values.image.repository }}"
           ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.application.contextPath }}/manage/health
-              port: http
-            initialDelaySeconds: 40
-            periodSeconds: 20
-          readinessProbe:
-            httpGet:
-              path: {{ .Values.application.contextPath }}/manage/health
-              port: http
-            initialDelaySeconds: 20
-            periodSeconds: 40
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-          volumeMounts:
-            - name: config
-              mountPath: /etc/
-      volumes:
-      - name: config
-        configMap:
-          name: {{ template "spring-petclinic.fullname" . }}
+            - name: http-server
+              containerPort: 9080
