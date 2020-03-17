@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ template "spring-petclinic.fullname" . }}
+  labels:
+    app: {{ template "spring-petclinic.name" . }}
+    chart: {{ template "spring-petclinic.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "spring-petclinic.name" . }}
+    release: {{ .Release.Name }}
