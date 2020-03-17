@@ -42,10 +42,12 @@ pipeline {
        stage('Build Docker Image') {
             steps {
                 script {
-                   echo "docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  ."
-                   sh 'docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  .'
+                   //echo "docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  ."
+                   //sh 'docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  .'
                    //#####echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
                    //#####sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} .'                   
+                   echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
+                   sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} .'                   
                 }
 
             }
