@@ -79,8 +79,11 @@ pipeline {
                     #!/bin/bash
                     ibmcloud login --apikey ${PASSWORD} -r ${env.REGION} -g ${env.RESOURCE_GROUP}
                     eval \$(ibmcloud ks cluster-config --cluster ${env.CLUSTER_NAME} --export)
-                    kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/deployment.yaml  --namespace=${env.DEPLOYMENT_NS}
-                    kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/service.yaml  --namespace=${env.DEPLOYMENT_NS}
+                    //kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/deployment.yaml  --namespace=${env.DEPLOYMENT_NS}
+                    //kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/service.yaml  --namespace=${env.DEPLOYMENT_NS}
+                    helm delete spring-petclinic-rel
+                    //helm install spring-petclinic-rel chart/spring-petclinic  --set-string image.repository="us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0.29"
+                    helm install spring-petclinic-rel chart/spring-petclinic  --set-string image.repository="${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${BUILD_NUMBER}"
                     """
                 }
 
