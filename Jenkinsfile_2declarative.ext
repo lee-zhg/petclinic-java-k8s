@@ -59,7 +59,6 @@ pipeline {
                  echo "docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}"
                  echo "docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0"
                  docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
-                 #####docker login -u "iamapikey" -p "PzzS3FSZGoEc7rC0bxZ9tR4Ku7QRDeUc5TBPDyxbnexclz" ${env.REGISTRY_URL}
                  docker  push  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0
                  """
              }
@@ -75,7 +74,6 @@ pipeline {
                     sh """
                     #!/bin/bash
                     ibmcloud login --apikey ${PASSWORD} -r ${env.REGION} -g ${env.RESOURCE_GROUP}
-                    #####ibmcloud login --apikey "PzzS3FSZGoEc7rC0bxZ9tR4Ku7QRDeUc5TBPDyxbnexclz" -r ${env.REGION} -g ${env.RESOURCE_GROUP}
                     eval \$(ibmcloud ks cluster-config --cluster ${env.CLUSTER_NAME} --export)
                     kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/deployment.yaml
                     kubectl apply -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/service.yaml
