@@ -107,20 +107,20 @@ Now you'll configure Github to trigger your pipeline whenever code is committed.
 
    ![Code](images/ss10.png)
 
-1. In the Github file browser, drill down to `src/main/resources/templates/welcome.html`.
+1. In the Github file browser, drill down to `src/main/resources/messages/messages.properties`.
 
-1. Click on the pencil icon to edit file `welcome.html`.
+1. Click on the pencil icon to edit file `messages.properties`.
 
-1. Change line 7 from
+1. Change line 1 from
 
-   ```html
-   <h2 th:text="#{welcome}">Welcome</h2>
+   ```text
+   welcome=Welcome
    ```
 
    to
 
-   ```html
-   <h2 th:text="#{welcome}">Welcome and Hello</h2>
+   ```text
+   welcome=Welcome to the IKS PetClinic
    ```
 
 1. At the bottom of the window, add a commit message and click on `Commit changes`.
