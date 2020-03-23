@@ -137,12 +137,17 @@ Now you'll configure Github to trigger your pipeline whenever code is committed.
 
 1. Verify that your pipeline was started.
 
-1. When the pipeline finishes deployment, you are ready to test the sample application. To test the application, you need IP addess and port#.
+
+### Step 5: Access the petclnic application
+
+After the pipeline finishes deployment, you are ready to test the sample application. To test the application, you need IP addess and port#.
+
+1. Go to your web terminal.
 
 1. To identify the `port#` where the sample application is running, run the following command
 
    ```
-   kubectl get service petclicnic -o jsonpath='{.spec.ports[0].nodePort}' --namespace default 
+   kubectl get service spring-petclinic-rel -o jsonpath='{.spec.ports[0].nodePort}' --namespace default 
    ```
 
 1. To identify `IP address` where the sample application is running, run the following command
