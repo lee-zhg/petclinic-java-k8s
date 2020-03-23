@@ -1,0 +1,90 @@
+// Basic Pipeline
+
+def clusterCredsID = env.CLUSTER_CREDENTIALS ?: "cluster-creds"
+
+pipeline {
+    environment {
+         REGISTRY_URL = "us.icr.io"
+         MAJOR_PREFIX = "1.0.0"
+         RELEASE_NAME = "petclicnic"
+         DEPLOYMENT_NS = "default"
+    }
+
+    tools {
+        maven 'Apache Maven 3.5.2'
+        jdk 'Open JDK 8'
+    }
+
+    agent any
+
+    stages {
+         stage ('Initialize') {
+            steps {
+                sh '''
+                  #!/bin/bash
+                 echo "REGISTRY_URL = ${REGISTRY_URL}"
+                 echo "REGISTRY_NS = ${REGISTRY_NS}"
+                 echo "REGION = ${REGION}"
+                 echo "RESOURCE_GROUP = ${RESOURCE_GROUP}"
+                 echo "CLUSTER_NAME = ${CLUSTER_NAME}"
+                 echo "REGION = ${REGION}"
+                '''
+            }
+         }
+
+        stage('Build application ear file') {
+          steps {
+              checkout scm
+              sh 'mvn clean package'
+          }
+        }
+
+       stage('Build Docker Image') {
+            steps {
+                script {
+                   //echo "docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  ."
+                   //sh 'docker  build  -t  us.icr.io/appmod_lz/user001/spring-petclicnic:1.0.0  .'
+                   //#####echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
+                   //#####sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} .'                   
+                   echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
+                   sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} .'
+                }
+
+            }
+       }
+
+       stage('Push Docker Image to Registry') {
+          steps {
+             withCredentials([usernamePassword(credentialsId: clusterCredsID,
+                                          usernameVariable: 'USERNAME',
+                                          passwordVariable: 'PASSWORD')]) {
+                 sh """
+                 #!/bin/bash
+                 echo "docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}"
+                 echo "docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${BUILD_NUMBER}"
+                 docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
+                 docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${BUILD_NUMBER}
+                 """
+             }
+           }
+       }
+
+        stage('Deploy new Docker Image') {
+            steps {
+                echo 'Deploying....'
+                withCredentials([usernamePassword(credentialsId: clusterCredsID,
+                                             usernameVariable: 'USERNAME',
+                                             passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    #!/bin/bash
+                    ibmcloud login --apikey ${PASSWORD} -r ${env.REGION} -g ${env.RESOURCE_GROUP}
+                    eval \$(ibmcloud ks cluster-config --cluster ${env.CLUSTER_NAME} --export)
+                    helm delete spring-petclinic-rel || true
+                    helm install spring-petclinic-rel chart/spring-petclinic  --set-string image.repository="${env.REGISTRY_URL}/${env.REGISTRY_NS}/spring-petclicnic:${env.MAJOR_PREFIX}.${BUILD_NUMBER}"
+                    """
+                }
+
+            }
+        }
+    }
+}
