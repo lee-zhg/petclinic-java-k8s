@@ -32,7 +32,7 @@ pipeline {
             }
          }
 
-        stage('Build application ear file') {
+        stage('Build application jar file') {
           steps {
               checkout scm
               sh 'mvn clean package'
@@ -43,7 +43,9 @@ pipeline {
             steps {
                 script {
                    echo "docker  build  -t  us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0  ."
-                   sh 'docker  build  -t  us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0  .'                 
+                   sh 'docker  build  -t  us.icr.io/appmod_aac/user001/spring-petclicnic:1.0.0  .'
+                   //#####echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
+                   //#####sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/spring-petclicnic:${MAJOR_PREFIX}.${BUILD_NUMBER} .'                   
                 }
 
             }
