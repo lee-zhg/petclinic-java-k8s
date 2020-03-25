@@ -113,20 +113,20 @@ Now you'll configure Github to trigger your pipeline whenever code is committed.
 
    ![Code](images/ss10.png)
 
-1. In the Github file browser, drill down to `src/main/resources/templates/welcome.html`.
+1. In the Github file browser, drill down to `/src/main/resources/messages/messages.properties`.
 
-1. Click on the pencil icon to edit file `welcome.html`.
+1. Click on the pencil icon to edit file `messages.properties`.
 
-1. Change line 7 from 
+1. Change line 1 from 
 
    ```
-   <h2 th:text="#{welcome}">Welcome</h2>
+   welcome=Welcome
    ```
 
    to
 
    ```
-   <h2 th:text="#{welcome}">Welcome and Hello</h2>
+   welcome=Welcome to IKS workshop
    ```
  
 1. At the bottom of the window, add a commit message and click on `Commit changes`.
@@ -172,8 +172,7 @@ Free up resources for subsequent labs by deleting the Petclinic application.
 1. Run the following command to delete the app
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/deployment.yaml
-   kubectl delete -f https://raw.githubusercontent.com/lee-zhg/petclinic-java-k8s/master/service.yaml
+   helm uninstall spring-petclinic-rel
    ```
 
 
